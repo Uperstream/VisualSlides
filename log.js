@@ -25,18 +25,17 @@ function setup() {
   p.style('font-weight','700');
   p.position(20,-50);
   for(var i = 0; i<100;i++){
-    var s = new Circle();
-    circles.push(s);
-    s.show();
     var st = new Stroke();
     strokes.push(st);
     st.show();
-
     var sp = new Space();
     spaces.push(sp);
     sp.show();
   }
   for(var j = 0; j<200;j++){
+    var s = new Circle();
+    circles.push(s);
+    s.show();
     var sqr = new Square();
     squares.push(sqr);
     sqr.show();
@@ -48,13 +47,13 @@ function draw() {
   background(0);
 
   for(var l = 0; l<spaces.length;l++){
-    spaces[l].x +=  sin(millis() * random(0.001)) ;
-    spaces[l].y +=  cos(millis() * random(0.001)) ;
+    spaces[l].x +=  cos(millis() * spaces[l].m) * noise(spaces[l].x) ;
+    spaces[l].y +=  sin(millis() * spaces[l].m) * noise(spaces[l].y) ;
     spaces[l].show();
   }
   for(var j = 0; j<strokes.length;j++){
-    strokes[j].x += 0.001* sin(millis() * random(0.001)) ;
-    strokes[j].y += 0.001* cos(millis() * random(0.001)) ;
+    strokes[j].x += 0.001* sin(millis() * (0.001)) ;
+    strokes[j].y += 0.001* cos(millis() * (0.001)) ;
     strokes[j].tx +=  sin(millis() * random(0.001))* noise(strokes[j].tx) ;
     strokes[j].ty +=  cos(millis() * random(0.001))* noise(strokes[j].ty) ;
     strokes[j].show();
@@ -62,8 +61,8 @@ function draw() {
   image(img2,420,260);
   image(img,420,100);
   for(var k = 0; k<squares.length;k++){
-    squares[k].x +=  sin(millis() * random(0.001)) ;
-    squares[k].y +=  cos(millis() * random(0.001)) ;
+    squares[k].x +=  sin(millis() * random(0.001))*noise(squares[k].x) ;
+    squares[k].y +=  cos(millis() * random(0.001))*noise(squares[k].y) ;
     squares[k].show();
   }
   for(var i = 0; i<circles.length;i++){
@@ -171,6 +170,7 @@ function Space(){
   this.h = random(80,120);
   this.c = colorShift(random(col3));
   this.r = PI * random(2);
+  this.m = random(0.001);
   this.show = function(){
   fill(this.c);
   push();
