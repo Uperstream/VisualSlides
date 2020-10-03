@@ -17,29 +17,31 @@ function setup() {
   noStroke();
   var p = createP("What do you want from me? ");
   var p1 = createP("Similar quistions like this came from the scientist we’ve been paired up.");
-  var p2 = createP("I don’t know. That’s my answer, sincerely. As designer or artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
+  var p2 = createP("I don’t know. That’s my answer, sincerely. As designer and artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
   // print(p);
   // p.element("1");
 
-  p.style('color','#c3f8ff');
+  p.style('color','#e6fc79');
   p.style('font-family','Montserrat','sans-serif');
   p.style('font-size','58pt');
   p.style('font-weight','700');
   p.style('font-style','italic');
-  p.position(20,-50);
+  p.position(20,-65);
   
   p1.position(20,80);
   p1.style('margin-right','60%');
-  p1.style('color','#c3f8ff');
-  p1.style('font-size','36pt');
+  p1.style('margin-left','10px');
+  p1.style('color','#e6fc79');
+  p1.style('font-size','34pt');
   p1.style('font-weight','400');
   p1.style('font-family','Montserrat','sans-serif');
   // p1.style('background-color','#526475');
   
   p2.position(20,320);
   p2.style('margin-right','40%');
-  p2.style('color','#c3f8ff');
-  p2.style('font-size','36pt');
+  p2.style('margin-left','10px');
+  p2.style('color','#e6fc79');
+  p2.style('font-size','34pt');
   p2.style('font-weight','400');
   p2.style('font-family','Montserrat','sans-serif');
   
