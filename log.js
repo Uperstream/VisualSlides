@@ -8,7 +8,6 @@ function preload(){
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
 }
-
 function setup() {
   col = [color(0,7,37),color(2,131,242),color(84,236,255),color(121,228,255),color(10,18,20),color(153,207,219)];
   col2 = [color(255,252,121),color(245,137,73),color(96,79,85)];
@@ -16,14 +15,34 @@ function setup() {
   createCanvas(1600, 800);
   background(0);
   noStroke();
-  var p = createP('What do you want from me?');
+  var p = createP("What do you want from me? ");
+  var p1 = createP("Similar quistions like this came from the scientist we’ve been paired up.");
+  var p2 = createP("I don’t know. That’s my answer, sincerely. As designer or artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
   // print(p);
   // p.element("1");
+
   p.style('color','#c3f8ff');
-  p.style('font-family','Oxygen','sans-serif');
-  p.style('font-size','48pt');
+  p.style('font-family','Montserrat','sans-serif');
+  p.style('font-size','58pt');
   p.style('font-weight','700');
+  p.style('font-style','italic');
   p.position(20,-50);
+  
+  p1.position(20,80);
+  p1.style('margin-right','60%');
+  p1.style('color','#c3f8ff');
+  p1.style('font-size','36pt');
+  p1.style('font-weight','400');
+  p1.style('font-family','Montserrat','sans-serif');
+  // p1.style('background-color','#526475');
+  
+  p2.position(20,320);
+  p2.style('margin-right','40%');
+  p2.style('color','#c3f8ff');
+  p2.style('font-size','36pt');
+  p2.style('font-weight','400');
+  p2.style('font-family','Montserrat','sans-serif');
+  
   for(var i = 0; i<100;i++){
     var st = new Stroke();
     strokes.push(st);
@@ -58,8 +77,8 @@ function draw() {
     strokes[j].ty +=  cos(millis() * random(0.001))* noise(strokes[j].ty) ;
     strokes[j].show();
   }
-  image(img2,420,260);
-  image(img,420,100);
+  image(img2,500,260);
+  image(img,500,100);
   for(var k = 0; k<squares.length;k++){
     squares[k].x +=  sin(millis() * random(0.001))*noise(squares[k].x) ;
     squares[k].y +=  cos(millis() * random(0.001))*noise(squares[k].y) ;
