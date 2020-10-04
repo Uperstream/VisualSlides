@@ -4,18 +4,26 @@ var circles = [];
 var strokes = [];
 var squares = [];
 var spaces = [];
+var scl = 20;
+var cols, rows;
+var zoff = 0;
+
 function preload(){
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
   img3 = loadImage('Images/3.png');
 }
 function setup() {
+  createCanvas(windowWidth, 3200);
+  cols = floor(1000/scl);
+  rows = floor(600/scl);
+  background(0);
+  noStroke();
+  
   col = [color(0,7,37),color(2,131,242),color(84,236,255),color(121,228,255),color(10,18,20),color(153,207,219)];
   col2 = [color(255,252,121),color(245,137,73),color(96,79,85)];
   col3 = [color(153,207,219),color(149,153,173),color(82,100,117),color(210,240,240),color(159,241,255)];
-  createCanvas(1600, 800);
-  background(0);
-  noStroke();
+
   var p = createP("What do you want from me? ");
   var p1 = createP("Similar quistions like this came from the scientist we’ve been paired up.");
   var p2 = createP("I don’t know. That’s my answer, sincerely. As designer and artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
@@ -67,7 +75,8 @@ function setup() {
 
 function draw() {
   background(0);
-  image(img3,500,60);
+  noStroke();
+  image(img3,width*0.35,60);
 
   for(var l = 0; l<spaces.length;l++){
     spaces[l].x +=  cos(millis() * spaces[l].m) * noise(spaces[l].x) ;
@@ -81,8 +90,8 @@ function draw() {
     strokes[j].ty +=  cos(millis() * random(0.001))* noise(strokes[j].ty) ;
     strokes[j].show();
   }
-  image(img2,500,260);
-  image(img,500,100);
+  image(img2,width*0.35,260);
+  image(img,width*0.35,100);
 
   for(var k = 0; k<squares.length;k++){
     squares[k].x +=  sin(millis() * random(0.001))*noise(squares[k].x) ;
@@ -95,6 +104,29 @@ function draw() {
     circles[i].show();
   }
 
+  push();
+  translate(width*0.5-cols*scl*0.5 ,800);
+  var yoff = 0;
+  for (var y = 0; y < rows; y++){
+    var xoff = 0;
+    for (var x = 0; x < cols; x++){
+      var v = createVector(x-cols*0.5,y-rows*0.5);
+      v.normalize();
+      var angle = noise(xoff,yoff,zoff) * TWO_PI;
+      xoff+= 0.02;
+      stroke(255);
+      push();
+      translate(x * scl, y * scl);
+      rotate(v.heading());
+      rotate(angle);
+      line(0, 0, scl, 0);
+      // rect(x * scl, y * scl, scl, scl);
+      pop();
+    }
+    yoff+= 0.02;
+  }
+  zoff+= 0.02;
+  pop();
 
   
   // for(var i = 0; i<100;i++){
@@ -157,7 +189,7 @@ function colorShift(col){
 
 function Circle(){
   this.x = random(-width*0.4,width*0.4);
-  this.y = random(-height*0.4,height*0.4);
+  this.y = random(-height*0.1,height*0.1);
   this.w = random(5,15);
   this.c = colorShift(random(col2));
   this.r = random();
@@ -170,7 +202,7 @@ function Circle(){
   
   this.show = function(){
   push();
-  translate(width * 0.6, height *0.5);
+  translate(width * 0.6, height *0.125);
   if(this.r>0.5){
     fill(this.c2);
     // rect(this.x+this.xOff,this.y+this.yOff,this.w*this.s,this.w*this.s);
@@ -184,7 +216,7 @@ function Circle(){
 
 function Square(){
   this.x = random(width);
-  this.y = random(height);
+  this.y = random(height*0.25);
   this.r = PI * random(2);
   if(random(1)<0.5){
       this.w = random(5,20);
@@ -225,7 +257,7 @@ function Space(){
   this.show = function(){
   fill(this.c);
   push();
-  translate(width * 0.6, height*0.3);
+  translate(width * 0.6, height*0.075);
   rotate(this.r);
   rect(this.x,0,this.w,this.h);
   pop();
@@ -236,7 +268,7 @@ function Stroke(){
   this.x = random(0.2,0.8);
   this.y = random(0.2,0.6);
   this.tx = width * 0.6;
-  this.ty = height *0.3;
+  this.ty = height *0.075;
   this.w = random(5,10);
   this.c = colorShift(random(col));
   this.r = PI * random(2);
@@ -258,3 +290,5 @@ function Stroke(){
   pop();
   }
 }
+
+// let myp5 = new p5(s, 'p5sketch');
