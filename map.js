@@ -6,7 +6,7 @@ function setup() {
   createCanvas(550, 500);
   background(0);
   colorMode(HSB);
-  img = loadImage("1.png");
+  img = loadImage("Images/map1.png");
 
   for (i = 0; i <= 21; i++) {
     stroke(0);
