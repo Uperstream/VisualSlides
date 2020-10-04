@@ -4,7 +4,7 @@ var circles = [];
 var strokes = [];
 var squares = [];
 var spaces = [];
-var scl = 20;
+var scl = 40;
 var cols, rows;
 var zoff = 0;
 
@@ -113,7 +113,7 @@ function draw() {
       var v = createVector(x-cols*0.5,y-rows*0.5);
       v.normalize();
       var angle = noise(xoff,yoff,zoff) * TWO_PI;
-      xoff+= 0.02;
+      xoff+= 0.1;
       stroke(255);
       push();
       translate(x * scl, y * scl);
@@ -123,9 +123,9 @@ function draw() {
       // rect(x * scl, y * scl, scl, scl);
       pop();
     }
-    yoff+= 0.02;
+    yoff+= 0.1;
   }
-  zoff+= 0.02;
+  zoff+= 0.05;
   pop();
 
   
