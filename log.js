@@ -1,4 +1,4 @@
-var img,img2;
+var img,img2,img3;
 var col,col2,col3 = [];
 var circles = [];
 var strokes = [];
@@ -7,6 +7,7 @@ var spaces = [];
 function preload(){
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
+  img3 = loadImage('Images/3.png');
 }
 function setup() {
   col = [color(0,7,37),color(2,131,242),color(84,236,255),color(121,228,255),color(10,18,20),color(153,207,219)];
@@ -66,6 +67,7 @@ function setup() {
 
 function draw() {
   background(0);
+  image(img3,500,60);
 
   for(var l = 0; l<spaces.length;l++){
     spaces[l].x +=  cos(millis() * spaces[l].m) * noise(spaces[l].x) ;
@@ -81,6 +83,7 @@ function draw() {
   }
   image(img2,500,260);
   image(img,500,100);
+
   for(var k = 0; k<squares.length;k++){
     squares[k].x +=  sin(millis() * random(0.001))*noise(squares[k].x) ;
     squares[k].y +=  cos(millis() * random(0.001))*noise(squares[k].y) ;
@@ -91,6 +94,7 @@ function draw() {
     circles[i].y += cos(millis() * random(0.001)) ;
     circles[i].show();
   }
+
 
   
   // for(var i = 0; i<100;i++){
@@ -156,11 +160,23 @@ function Circle(){
   this.y = random(-height*0.4,height*0.4);
   this.w = random(5,15);
   this.c = colorShift(random(col2));
+  this.r = random();
+  if(this.r>0.5){
+  this.c2 = colorShift(random(col3));
+  this.xOff = random(-5,5);
+  this.yOff = random(-5,5);
+  this.s = random(1.0,2.0);
+  }
   
   this.show = function(){
-  fill(this.c);
   push();
   translate(width * 0.6, height *0.5);
+  if(this.r>0.5){
+    fill(this.c2);
+    // rect(this.x+this.xOff,this.y+this.yOff,this.w*this.s,this.w*this.s);
+    ellipse(this.x+this.xOff,this.y+this.yOff,this.w*this.s);
+  }
+  fill(this.c);
   ellipse(this.x,this.y,this.w);
   pop();
   }
@@ -169,19 +185,33 @@ function Circle(){
 function Square(){
   this.x = random(width);
   this.y = random(height);
+  this.r = PI * random(2);
   if(random(1)<0.5){
       this.w = random(5,20);
       this.h = random(20,80);
+      this.xOff = random(20);
+      this.yOff = random(5);
+      this.s = random(0.2,.4);
     }else{
       this.w = random(40,100);
       this.h = random(5,10);
+      this.xOff = random(5);
+      this.yOff = random(10);
+      this.s = random(0.4,0.8);
     }
 
   this.c = colorShift(random(col));
+  this.c2 = colorShift(random(col2));
   
   this.show = function(){
   fill(this.c);
+  // push();
+  // translate(width * 0.6, height*0.3);
+  // rotate(this.r);
   rect(this.x,this.y,this.w,this.h);
+  fill(this.c2);
+  rect(this.x+this.xOff,this.y+this.yOff,this.w*this.s,this.h*this.s);
+  // pop();
   }
 }
 
@@ -190,7 +220,7 @@ function Space(){
   this.w = random(160,220);
   this.h = random(80,120);
   this.c = colorShift(random(col3));
-  this.r = PI * random(2);
+  this.r = PI * random();
   this.m = random(0.001);
   this.show = function(){
   fill(this.c);
