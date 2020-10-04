@@ -25,7 +25,7 @@ function setup() {
   p.style('color','#e6fc79');
   p.style('font-family','Montserrat','sans-serif');
   p.style('font-size','58pt');
-  p.style('font-weight','700');
+  p.style('font-weight','800');
   p.style('font-style','italic');
   p.position(20,-65);
   
@@ -34,7 +34,7 @@ function setup() {
   p1.style('margin-left','10px');
   p1.style('color','#e6fc79');
   p1.style('font-size','34pt');
-  p1.style('font-weight','400');
+  p1.style('font-weight','500');
   p1.style('font-family','Montserrat','sans-serif');
   // p1.style('background-color','#526475');
   
@@ -43,7 +43,7 @@ function setup() {
   p2.style('margin-left','10px');
   p2.style('color','#e6fc79');
   p2.style('font-size','34pt');
-  p2.style('font-weight','400');
+  p2.style('font-weight','500');
   p2.style('font-family','Montserrat','sans-serif');
   
   for(var i = 0; i<100;i++){
