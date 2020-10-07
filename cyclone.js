@@ -2,7 +2,7 @@ var data;
 var cyclones = [];
 var t = 0;
 function preload(){
-  data = loadJSON("Data/cyclone_tracks_global_1979-2016.json");
+  data = loadJSON("Data/cyclone.json");
 }
 
 function setup() {
