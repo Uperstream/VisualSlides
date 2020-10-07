@@ -34,7 +34,7 @@ function setup() {
   var p0 = createP("What do you want from me? ");
   var p1 = createP("Similar questions like this came from the scientist we’ve been paired up with.");
   var p2 = createP("I don’t know. That’s my answer, sincerely. As designer and artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
-  // print(p);
+  var p3 = createP("The Ocean remembers for 200 years.");
   // p.element("1");
 
   p0.style('color','#e6fc79');
@@ -60,6 +60,14 @@ function setup() {
   p2.style('font-size','34pt');
   p2.style('font-weight','500');
   p2.style('font-family','Montserrat','sans-serif');
+  
+  p3.style('color','#e6fc79');
+  p3.style('width','70%');
+  p3.style('font-family','Montserrat','sans-serif');
+  p3.style('font-size','58pt');
+  p3.style('font-weight','800');
+  p3.style('font-style','italic');
+  p3.position(20,700);
   
   for(var i = 0; i<100;i++){
     var st = new Stroke();
@@ -90,6 +98,7 @@ function draw() {
   // background(0);
   noStroke();
   fill(0,15);
+  rectMode(CORNER);
   rect(0,0,width,800);
   // fill(0,10);
   rect(0,800,width,800);
@@ -216,11 +225,11 @@ function draw() {
 
 }
 
-function colorShift(col){
+function colorShift(col,al){
   r = col.levels[0]+random(-20,20);
   g = col.levels[1]+random(-20,20);
   b = col.levels[2]+random(-20,20);
-  a = random(255);
+  a = random(10,al);
   c = color(r,g,b,a);
   return c
 }
@@ -229,10 +238,10 @@ function Circle(){
   this.x = random(-width*0.4,width*0.4);
   this.y = random(-height*0.1,height*0.1);
   this.w = random(5,15);
-  this.c = colorShift(random(col2));
+  this.c = colorShift(random(col2),255);
   this.r = random();
   if(this.r>0.5){
-  this.c2 = colorShift(random(col3));
+  this.c2 = colorShift(random(col3),255);
   this.xOff = random(-5,5);
   this.yOff = random(-5,5);
   this.s = random(1.0,2.0);
@@ -270,8 +279,8 @@ function Square(){
       this.s = random(0.4,0.8);
     }
 
-  this.c = colorShift(random(col));
-  this.c2 = colorShift(random(col2));
+  this.c = colorShift(random(col),255);
+  this.c2 = colorShift(random(col2),255);
   
   this.show = function(){
   fill(this.c);
@@ -289,7 +298,7 @@ function Space(){
   this.x = random(width*0.1,width*0.3);
   this.w = random(160,220);
   this.h = random(80,120);
-  this.c = colorShift(random(col3));
+  this.c = colorShift(random(col3),255);
   this.r = PI * random();
   this.m = random(0.001);
   this.show = function(){
@@ -308,7 +317,7 @@ function Stroke(){
   this.tx = width * 0.6;
   this.ty = height *0.075;
   this.w = random(5,10);
-  this.c = colorShift(random(col));
+  this.c = colorShift(random(col),255);
   this.r = PI * random(2);
   this.j = int(random(5));
   
@@ -329,9 +338,9 @@ function Stroke(){
   }
 }
 
-function mouseClicked(){
-  print(mouseX);
-  print(mouseY)
-}
+// function mouseClicked(){
+//   print(mouseX);
+//   print(mouseY)
+// }
 
 // let myp5 = new p5(s, 'p5sketch');
