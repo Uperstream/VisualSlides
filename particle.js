@@ -82,9 +82,10 @@ function Particle(){
     // stroke(colorShift(this.col,200));
     fill(this.col);
     rect(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20),sin(noise(this.xoff))*20,cos(noise(this.xoff))*20);
+    fill(colorShift(random(col4),20))
     rect(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20),sin(noise(this.yoff))*20,cos(noise(this.yoff))*20);
     rect(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15),sin(noise(this.zoff))*20,cos(noise(this.zoff))*20);
-    stroke(colorShift(this.col,150));
+    stroke(colorShift(random(col4),150));
     strokeWeight(noise(this.yoff)*10);
     point(this.pos.x, this.pos.y);
     strokeWeight(1+noise(this.xoff)*2);
