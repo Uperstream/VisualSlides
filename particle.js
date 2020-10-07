@@ -1,16 +1,28 @@
 function Particle(){
   this.pos = createVector(random(width),random(800,1600));
   this.vel = p5.Vector.random2D();
-  this.acc = createVector(0,0);
-  this.col = colorShift(random(col2));
+  this.acc = p5.Vector.random2D();
+  this.acc.setMag(3);
   this.c = 0;
   this.prevPos = this.pos.copy();
-  this.maxSpeed = 3;
+  this.maxSpeed = 5;
+  this.col = colorShift(random(col4),20);
+  this.xoff = random(100);
+  this.yoff = random(100);
+  this.zoff = random(100);
+  this.pposx = this.pos.copy();
+  this.pposy = this.pos.copy();
+  this.pposz = this.pos.copy();
+  this.child = function(children){
+    this.children = children;
+  }
   
   this.update = function(){
     this.vel.add(this.acc);
     this.vel.limit(this.maxSpeed);
     this.pos.add(this.vel);
+      // this.pos.add(noise(this.off));
+      // this.off += random(0.06,0.1);
     this.acc.mult(0);
   }
   
@@ -30,14 +42,66 @@ function Particle(){
   }
   this.updatePrev = function(){
     this.prevPos = this.pos.copy();
+    this.pposx = createVector(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20));
+    this.pposy = createVector(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20));
+    this.pposz = createVector(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15));
+    // this.acc.mult(this.xoff);
+    // this.pposx.add(this.acc.mult);
+    // this.acc.mult(this.yoff);
+    // this.pposy.add(this.acc.mult);
+    // this.acc.mult(this.zoff);
+    // this.pposz.add(this.acc.mult);
+    this.xoff+=0.05;
+    this.yoff+=0.08;
+    this.zoff+=0.1;
   }
   
   this.show = function(){
-    stroke(this.col);
-    strokeWeight(5);
-    // fill(255);
-    // point(this.pos.x, this.pos.y);
-    line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+    // if(random()>1){stroke(this.col);
+    // strokeWeight(noise(this.xoff)*45);
+    // // fill(255);
+    // // point(this.pos.x, this.pos.y);
+    // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+      
+    // }else{
+      // if(!colorIn){noStroke();
+      
+      noStroke();
+      push();
+      fill(this.col);
+      rectMode(CENTER);
+      translate(this.pos.x, this.pos.y);
+      rotate(noise(this.xoff)*PI);
+      rect(0,0,noise(this.xoff)*75,noise(this.yoff)*75);
+      pop();
+        
+      // }else{
+    // }
+    // strokeWeight(noise(this.yoff)*20);
+    // line(this.pos.x+noise(this.xoff)*50, this.pos.y+noise(this.yoff)*50, this.prevPos.x+noise(this.xoff)*10, this.prevPos.y+noise(this.yoff)*10);
+    // stroke(colorShift(this.col,200));
+    fill(this.col);
+    rect(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20),sin(noise(this.xoff))*20,cos(noise(this.xoff))*20);
+    rect(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20),sin(noise(this.yoff))*20,cos(noise(this.yoff))*20);
+    rect(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15),sin(noise(this.zoff))*20,cos(noise(this.zoff))*20);
+    stroke(colorShift(this.col,150));
+    strokeWeight(noise(this.yoff)*10);
+    point(this.pos.x, this.pos.y);
+    strokeWeight(1+noise(this.xoff)*2);
+    
+    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.xoff)*10), this.pos.y+(noise(this.xoff)*10));
+    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.yoff)*-10), this.pos.y+(noise(this.yoff)*-10));
+    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15));
+    
+    // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+
+      
+    line(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20), this.pposx.x, this.pposx.y);
+    
+    line(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20), this.pposy.x, this.pposy.y);
+    
+    line(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15), this.pposz.x, this.pposz.y);
+
     this.updatePrev();
   }
   
