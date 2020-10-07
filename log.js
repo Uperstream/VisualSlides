@@ -29,9 +29,10 @@ function setup() {
   col = [color(0,7,37),color(2,131,242),color(84,236,255),color(121,228,255),color(10,18,20),color(153,207,219)];
   col2 = [color(255,252,121),color(245,137,73),color(96,79,85)];
   col3 = [color(153,207,219),color(149,153,173),color(82,100,117),color(210,240,240),color(159,241,255)];
+  col4 = [color(153,52,52),color(97,160,61),color(60,137,170),color(183,177,75),color(91,75,173),color(167,198,71),color(193,119,30),color(216,216,216)];
 
   var p0 = createP("What do you want from me? ");
-  var p1 = createP("Similar quistions like this came from the scientist we’ve been paired up.");
+  var p1 = createP("Similar questions like this came from the scientist we’ve been paired up with.");
   var p2 = createP("I don’t know. That’s my answer, sincerely. As designer and artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
   // print(p);
   // p.element("1");
