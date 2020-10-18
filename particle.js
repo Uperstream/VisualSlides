@@ -6,13 +6,14 @@ function Particle(){
   this.c = 0;
   this.prevPos = this.pos.copy();
   this.maxSpeed = 5;
-  this.col = colorShift(random(col4),20);
+  this.col = colorShift(random(col5),50);
   this.xoff = random(100);
   this.yoff = random(100);
   this.zoff = random(100);
   this.pposx = this.pos.copy();
   this.pposy = this.pos.copy();
   this.pposz = this.pos.copy();
+  this.alive = true;
   this.child = function(children){
     this.children = children;
   }
@@ -125,7 +126,7 @@ function Particle(){
       this.pos.y =1600;
       this.updatePrev();
     }
-    if(this.pos.x>width*0.5+10&&this.pos.x<width*0.5+30&&this.pos.y>1200+10&&this.pos.y<1200+30){
+    if(this.pos.x>width*0.5-gridCenterXoff+10&&this.pos.x<width*0.5-gridCenterXoff+30&&this.pos.y>1200+20&&this.pos.y<1200+40){
       //x = 739, y = 1220
       // print("1");
       this.c ++;
@@ -134,9 +135,59 @@ function Particle(){
         this.pos.x = mouseX; 
         this.pos.y = mouseY;
         this.updatePrev();
-        this.vel = p5.Vector.random2D();
+        // this.vel = p5.Vector.random2D();
       }
     }
+  }
+  
+  this.move = function(){
+      // if(this.alive&&this.pos.y<2000){this.pos.x = 0;
+      // this.pos.y = 2000;
+      // this.updatePrev();
+      // }
+  var n = 0;
+  if(floor(this.pos.x/20)<lands.length){
+    n = floor(this.pos.x/20);
+  }else{
+    n = lands.length;
+  }
+  // if(lands[n]){
+  if (this.pos.x > lands[n].x&&this.pos.y > lands[n].y||this.pos.y < 1800){
+      this.vel = createVector(0,10);
+      this.acc = createVector(0,10);
+  }else{
+    this.vel = createVector(0,0);
+    this.acc = createVector(random(-1,1),random(-1,1)+(mouseY-pmouseY));
+  }
+    // this.applyForce(createVector(1,0));
+    
+  }
+  this.setMove = function(){
+    this.pos.x = random(width);
+      this.pos.y = 1800+random(500);
+      this.vel = createVector(0,0);
+      this.acc = createVector(0,0);
+      this.updatePrev();
+  }
+  
+  this.moveEdges = function(){
+    // if(this.pos.x>width){
+    //     this.pos.x =0;
+    //     this.updatePrev();
+    //   }
+    //   if(this.pos.x<0){
+    //     this.pos.x =width;
+    //     this.updatePrev();
+    //   }
+      if(this.pos.y>2400){
+        this.pos.y =1600;
+        this.updatePrev();
+        
+      }
+      if(this.pos.y<1600){
+        this.pos.y =2400;
+        this.updatePrev();
+      }
   }
   
 }
