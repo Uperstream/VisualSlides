@@ -4,25 +4,44 @@ var circles = [];
 var strokes = [];
 var squares = [];
 var spaces = [];
+var lands = [];
 var scl = 40;
 var cols, rows;
 var zoff = 0;
 var particles = [];
 var flowfield = [];
 var gridXOff,gridYOff = 0;
+var gridCenterXoff =0;
+var simulate = false;
+var move = false;
+// var simulateBtn;
 
 function preload(){
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
   img3 = loadImage('Images/3.png');
 }
+
+function windowResized(){
+  resizeCanvas(windowWidth, 2400);
+  background(0);
+}
+
 function setup() {
-  createCanvas(windowWidth, 3200);
+  createCanvas(windowWidth, 2400);
+  
   cols = floor(1000/scl);
   rows = floor(600/scl);
-  gridXOff = (width-1000)*0.5;
-  gridYOff = 800+(800-600)*0.5;
+  gridXOff = 80;
+  gridCenterXoff = (width-1000)*0.5-80;
+  gridYOff = 800+(800-600)*0.5+20;
+  // canvas.position(0,0);
   background(0);
+  
+  var simulateBtn = select(".cta","#part2");
+  simulateBtn.mousePressed(simulateStart);
+  var moveBtn = select(".cta", "#part3");
+  moveBtn.mousePressed(moveStart);
   
   noStroke();
   
@@ -30,44 +49,8 @@ function setup() {
   col2 = [color(255,252,121),color(245,137,73),color(96,79,85)];
   col3 = [color(153,207,219),color(149,153,173),color(82,100,117),color(210,240,240),color(159,241,255)];
   col4 = [color(153,52,52),color(97,160,61),color(60,137,170),color(183,177,75),color(91,75,173),color(167,198,71),color(193,119,30),color(216,216,216)];
-
-  var p0 = createP("What do you want from me? ");
-  var p1 = createP("Similar questions like this came from the scientist we’ve been paired up with.");
-  var p2 = createP("I don’t know. That’s my answer, sincerely. As designer and artist, we are always looking for some inspiration, which could be anything. Not just visual elements, it’s actually limitless. Let’s say, a phrase.");
-  var p3 = createP("The Ocean remembers for 200 years.");
-  // p.element("1");
-
-  p0.style('color','#e6fc79');
-  p0.style('font-family','Montserrat','sans-serif');
-  p0.style('font-size','58pt');
-  p0.style('font-weight','800');
-  p0.style('font-style','italic');
-  p0.position(20,-65);
-  
-  p1.position(20,80);
-  p1.style('margin-right','60%');
-  p1.style('margin-left','10px');
-  p1.style('color','#e6fc79');
-  p1.style('font-size','34pt');
-  p1.style('font-weight','500');
-  p1.style('font-family','Montserrat','sans-serif');
-  // p1.style('background-color','#526475');
-  
-  p2.position(20,320);
-  p2.style('margin-right','40%');
-  p2.style('margin-left','10px');
-  p2.style('color','#e6fc79');
-  p2.style('font-size','34pt');
-  p2.style('font-weight','500');
-  p2.style('font-family','Montserrat','sans-serif');
-  
-  p3.style('color','#e6fc79');
-  p3.style('width','70%');
-  p3.style('font-family','Montserrat','sans-serif');
-  p3.style('font-size','58pt');
-  p3.style('font-weight','800');
-  p3.style('font-style','italic');
-  p3.position(20,700);
+  col5 = [color(91,71,41),color(91,48,63),color(121,126,132),color(71,110,86)];
+  col6 = [color(40,95,80),color(40,75,100)];
   
   for(var i = 0; i<100;i++){
     var st = new Stroke();
@@ -76,6 +59,10 @@ function setup() {
     var sp = new Space();
     spaces.push(sp);
     sp.show();
+    var p = new Particle();
+    particles.push(p);
+    p.update();
+    p.show();
   }
   for(var j = 0; j<200;j++){
     var s = new Circle();
@@ -84,10 +71,7 @@ function setup() {
     var sqr = new Square();
     squares.push(sqr);
     sqr.show();
-    var p = new Particle();
-    particles.push(p);
-    p.update();
-    p.show();
+
   }
   
   flowfield = new Array(cols*rows);
@@ -97,16 +81,22 @@ function setup() {
 function draw() {
   // background(0);
   noStroke();
-  fill(0,15);
+  // background(0);
+  // fill(0);
+  background(0,20);
+  // fill(0,20);
   rectMode(CORNER);
-  rect(0,0,width,800);
   // fill(0,10);
-  rect(0,800,width,800);
+  // rect(0,0,width,800);
+  // rect(0,800,width,800);
   // if(frameCount%10 == 0){
   //   rect(0,800,width,800);
   // }
   // noStroke();
+  
   image(img3,width*0.35,60);
+  
+  
 
   for(var l = 0; l<spaces.length;l++){
     spaces[l].x +=  cos(millis() * spaces[l].m) * noise(spaces[l].x) ;
@@ -150,14 +140,27 @@ function draw() {
         flowfield[index] = v;
         // v.add(a);
         xoff+= 0.1;
-        strokeWeight(1);
+        
         // stroke(random(col));
-        stroke(2,131+sin(millis() * random(0.001))*angle*50,242+cos(millis() * random(0.001))*angle*20,50);
-        push();
+        if(!simulate&&!move){push();
         translate(x * scl, y * scl);
         rotate(v.heading());
+        noStroke();
+        if(random(1)>0.3){
+        fill(colorShift(random(col6),120));
+        // fill(2,131+sin(millis() * random(0.001))*angle*50,242+cos(millis() * random(0.001))*angle*20,random(50));
+        rectMode(CENTER);
+        if(random(1)>0.5){
+        ellipse(0,0,random(scl*1.5),random(scl*1.5));
+        }else{
+        rect(0,0,random(scl*1.5),random(scl*1.5));
+        }
+        }
+        strokeWeight(3);
+        // stroke(2,131+sin(millis() * random(0.001))*angle*50,242+cos(millis() * random(0.001))*angle*20,50);
+        stroke(90,109,138,20);
         line(0, 0, scl, 0);
-        pop();
+        pop();}
       }
       yoff+= 0.1;
     }
@@ -170,58 +173,24 @@ function draw() {
   for(var m = 0; m<particles.length;m++){
     // particles[m].x += sin(millis() * random(0.001)) ;
     // particles[m].y += cos(millis() * random(0.001)) ;
-    particles[m].follow(flowfield);
+    if(move){
+      particles[m].move();
+      particles[m].moveEdges();
+    }else{
+      particles[m].follow(flowfield);
+      particles[m].edges();
+    }
     particles[m].update();
-    particles[m].edges();
     particles[m].show();
   }
   
-  // for(var i = 0; i<100;i++){
-  //   // rect();
-    
-  //   push();
-  //   push();
-  //   translate(width * 0.6, height *0.5);
-  //   c2 = colorShift(random(col2));
-  //   fill(c2);
-  //   ellipse(random(-width*0.4,width*0.4),random(-height*0.4,height*0.4),random(5,15));
-  //   pop();
-  //   translate(width * 0.6, height *0.3);
-  //   rotate(PI / random(3.0));
-  //   // line(width*0.5,height*0.5,width*(0.5+random(0.5)), height*0.5);
-  //   var jMax = int(random(5));
-  //   for(var j = 1; j<jMax;j++){
-  //     // stroke(255-j*50)
-  //     // fill(255,random(50,255));
-
-  //     c = colorShift(random(col));
-  //     fill(c);
-  //     var q = random(1);
-  //     var h = width/jMax;
-  //     // line(width/(jMax+2)*(j-1),0,width/(jMax+2)*j-50,0);
-  //     rect(h*random(0.5,0.8)*j,0,h*random(0.5,0.8),random(5,10));
-  //     c = colorShift(random(col3));
-  //     fill(c);
-  //     rect(random(width*0.1,width*0.5),0,random(160,220),random(80,120));
-  //     // line(width*(1.5-q),0,width*q, 0);
-  //   }  
-  //   pop();
-  // }
-  
-    
-
-  // for(var l = 0; l<200;l++){
-  //   // fill(255,random(50,255));
-  //   c = colorShift(random(col));
-  //   fill(c);
-  //   var x = random(width);
-  //   var y = random(height);
-  //   if(random(1)<0.5){
-  //   rect(x,y,random(5,20),random(20,80));
-  //   }else{
-  //     rect(x,y,random(40,100),random(5,10));
-  //   }
-  // }
+  stroke(255);
+  noFill();
+  line(0,1850,width,1850);
+  for(var n = 0; n < width/20; n++){
+    line(n*20,2000+noise(n*(millis()*0.00001))*400,(n+1)*20,2000+noise((n+1)*(millis()*0.00001))*400);
+    lands[n] = createVector(n*20,2000+noise(n*(millis()*0.00001))*400);
+  }
 
 }
 
@@ -238,10 +207,10 @@ function Circle(){
   this.x = random(-width*0.4,width*0.4);
   this.y = random(-height*0.1,height*0.1);
   this.w = random(5,15);
-  this.c = colorShift(random(col2),255);
+  this.c = colorShift(random(col2),120);
   this.r = random();
   if(this.r>0.5){
-  this.c2 = colorShift(random(col3),255);
+  this.c2 = colorShift(random(col3),120);
   this.xOff = random(-5,5);
   this.yOff = random(-5,5);
   this.s = random(1.0,2.0);
@@ -279,8 +248,8 @@ function Square(){
       this.s = random(0.4,0.8);
     }
 
-  this.c = colorShift(random(col),255);
-  this.c2 = colorShift(random(col2),255);
+  this.c = colorShift(random(col),120);
+  this.c2 = colorShift(random(col2),120);
   
   this.show = function(){
   fill(this.c);
@@ -298,7 +267,7 @@ function Space(){
   this.x = random(width*0.1,width*0.3);
   this.w = random(160,220);
   this.h = random(80,120);
-  this.c = colorShift(random(col3),255);
+  this.c = colorShift(random(col3),80);
   this.r = PI * random();
   this.m = random(0.001);
   this.show = function(){
@@ -317,7 +286,7 @@ function Stroke(){
   this.tx = width * 0.6;
   this.ty = height *0.075;
   this.w = random(5,10);
-  this.c = colorShift(random(col),255);
+  this.c = colorShift(random(col),120);
   this.r = PI * random(2);
   this.j = int(random(5));
   
@@ -338,9 +307,24 @@ function Stroke(){
   }
 }
 
-// function mouseClicked(){
-//   print(mouseX);
-//   print(mouseY)
-// }
+function simulateStart(){
+  simulate = true;
+  mvoe = false;
+}
+
+function moveStart(){
+  simulate = false;
+  move = true;
+  for(var m = 0; m<particles.length;m++){
+    particles[m].setMove();
+  }
+}
+
+function mouseClicked(){
+  // saveCanvas('mycanvas', 'jpg');
+  // save("log.jpg");
+  // print(mouseX);
+  // print(mouseY);
+}
 
 // let myp5 = new p5(s, 'p5sketch');
