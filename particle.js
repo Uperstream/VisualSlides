@@ -146,18 +146,27 @@ function Particle(){
       // this.updatePrev();
       // }
   var n = 0;
-  if(floor(this.pos.x/20)<lands.length){
-    n = floor(this.pos.x/20);
+  if(floor(this.pos.x/lineGap)<lands.length&&floor(this.pos.x/lineGap)>0){
+    
+    n = floor(this.pos.x/lineGap);
   }else{
-    n = lands.length;
+    n = lands.length-1;
+    // print("1");
+    // print(n);
   }
   // if(lands[n]){
-  if (this.pos.x > lands[n].x&&this.pos.y > lands[n].y||this.pos.y < 1800){
-      this.vel = createVector(0,10);
-      this.acc = createVector(0,10);
+  // print(lands.length);
+  // print(n);
+  if(lands[n]){
+    if (this.pos.x > lands[n].x&&this.pos.y > lands[n].y||this.pos.y < 1800){
+        this.vel = createVector(0,10);
+        this.acc = createVector(0,10);
+    }else{
+      this.vel = createVector(0,0);
+      this.acc = createVector(random(-1,1),random(-1,1)+(mouseY-pmouseY)*5);
+    }
   }else{
-    this.vel = createVector(0,0);
-    this.acc = createVector(random(-1,1),random(-1,1)+(mouseY-pmouseY));
+    print("not valid");
   }
     // this.applyForce(createVector(1,0));
     
