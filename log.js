@@ -14,12 +14,21 @@ var gridXOff,gridYOff = 0;
 var gridCenterXoff =0;
 var simulate = false;
 var move = false;
+var table;
+var years = [];
+var months = [];
+var temps  = [];
+var counter = 1;
+var lineGap = 20;
+var nPPlusIndex,nIndex,nPlusIndex = 0;
+
 // var simulateBtn;
 
 function preload(){
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
   img3 = loadImage('Images/3.png');
+  table = loadTable('tempGlobal.csv', 'csv', 'header');
 }
 
 function windowResized(){
@@ -29,6 +38,29 @@ function windowResized(){
 
 function setup() {
   createCanvas(windowWidth, 2400);
+  // print(table.getRowCount() + ' total rows in table');
+  // print(table.getColumnCount() + ' total columns in table');
+  for(var k = 0; k<table.getRowCount();k++){
+    var row = table.getRow(k).arr;
+    years[k] = row[0];
+    // temps[k] =
+  }
+  table.removeColumn('Year');
+  table.removeColumn('J-D');
+  table.removeColumn('D-N');
+  table.removeColumn('DJF');
+  table.removeColumn('MAM');
+  table.removeColumn('JJA');
+  table.removeColumn('SON');
+  for(var l = 0; l<table.getRowCount();l++){
+    // var row = table.getRow(l).arr;
+    for(var m = 0; m<table.getColumnCount();m++){
+      temps.push(table.getArray()[l][m]);
+      months.push(years[l]+'.'+table.columns[m]);
+    }
+    // temps[k] =
+  }
+  // print(months);
   
   cols = floor(1000/scl);
   rows = floor(600/scl);
@@ -187,10 +219,32 @@ function draw() {
   stroke(255);
   noFill();
   line(0,1850,width,1850);
-  for(var n = 0; n < width/20; n++){
-    line(n*20,2000+noise(n*(millis()*0.00001))*400,(n+1)*20,2000+noise((n+1)*(millis()*0.00001))*400);
-    lands[n] = createVector(n*20,2000+noise(n*(millis()*0.00001))*400);
+  // if(frameCount%30===0){
+    if(nPlusIndex < temps.length){
+      counter += 0.05;
+    }
+  // }
+
+  for(var n = 0; n < width/lineGap; n++){
+    // line(n*20,2000+noise(n*(millis()*0.00001))*400,(n+1)*20,2000+noise((n+1)*(millis()*0.00001))*400);
+    
+    nIndex = (n*floor(counter));
+    nPlusIndex = ((n+1)*floor(counter));
+    nPIndex = (n*floor(counter+1));
+    nPPlusIndex = ((n+1)*floor(counter+1));
+    stroke(200);
+    line(n*lineGap,2200+temps[floor(n*counter)]*-220,(n+1)*lineGap,2200+temps[floor((n+1)*counter)]*-220);
+      textSize(16);
+      noStroke();
+      fill(200);
+      if(n%4==1){
+        text(months[floor(n*counter)],n*lineGap-20,2380);
+      }
+
+    // lands[n] = createVector(n*20,2000+noise(n*(millis()*0.00001))*400); 
+    lands[n] = createVector(n*lineGap,2200+temps[floor(n*counter)]*-220); 
   }
+
 
 }
 
