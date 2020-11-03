@@ -200,7 +200,11 @@ function Particle(){
       // if(frameRate%5===0){
         // this.vel = createVector(random(-0.1,0.1),random(-0.1,0.1)+(mouseY-pmouseY));
       // }
-      this.acc = createVector(random(-0.1,0.1),random(-0.1,0.1)+(mouseY-pmouseY));
+      if(!lastYear){
+        this.acc = createVector(random(-0.1,0.1),random(-0.1,0.1)+(mouseY-pmouseY));
+      }else{
+        this.acc = createVector(0,0);
+      }
     }
   }else{
     print("not valid");
