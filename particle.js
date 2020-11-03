@@ -1,5 +1,7 @@
 function Particle(){
-  this.pos = createVector(random(width),random(800,1600));
+  this.pos = createVector(random(width),random(windowHeight,windowHeight*2));
+  this.gradientPath = createVector(random(-1,1),random(-1,1));
+  this.sizeScalar = random(1.5,3.5);
   this.vel = p5.Vector.random2D();
   this.acc = p5.Vector.random2D();
   this.acc.setMag(3);
@@ -14,6 +16,8 @@ function Particle(){
   this.pposy = this.pos.copy();
   this.pposz = this.pos.copy();
   this.alive = true;
+  this.colorLight = color(0,0,0);
+  this.moveCol = random(moveCols);
   this.child = function(children){
     this.children = children;
   }
@@ -58,51 +62,81 @@ function Particle(){
   }
   
   this.show = function(){
-    // if(random()>1){stroke(this.col);
-    // strokeWeight(noise(this.xoff)*45);
-    // // fill(255);
-    // // point(this.pos.x, this.pos.y);
-    // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
-      
-    // }else{
-      // if(!colorIn){noStroke();
-      
-      noStroke();
-      push();
-      fill(this.col);
-      rectMode(CENTER);
-      translate(this.pos.x, this.pos.y);
-      rotate(noise(this.xoff)*PI);
-      rect(0,0,noise(this.xoff)*75,noise(this.yoff)*75);
-      pop();
+ 
+    //colorful show
+    //   noStroke();
+    //   push();
+    //   fill(this.col);
+    //   rectMode(CENTER);
+    //   translate(this.pos.x, this.pos.y);
+    //   rotate(noise(this.xoff)*PI);
+    //   rect(0,0,noise(this.xoff)*75,noise(this.yoff)*75);
+    //   pop();
         
-      // }else{
-    // }
-    // strokeWeight(noise(this.yoff)*20);
-    // line(this.pos.x+noise(this.xoff)*50, this.pos.y+noise(this.yoff)*50, this.prevPos.x+noise(this.xoff)*10, this.prevPos.y+noise(this.yoff)*10);
-    // stroke(colorShift(this.col,200));
-    fill(this.col);
-    rect(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20),sin(noise(this.xoff))*20,cos(noise(this.xoff))*20);
-    fill(colorShift(random(col4),20))
-    rect(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20),sin(noise(this.yoff))*20,cos(noise(this.yoff))*20);
-    rect(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15),sin(noise(this.zoff))*20,cos(noise(this.zoff))*20);
-    stroke(colorShift(random(col4),150));
-    strokeWeight(noise(this.yoff)*10);
-    point(this.pos.x, this.pos.y);
-    strokeWeight(1+noise(this.xoff)*2);
-    
-    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.xoff)*10), this.pos.y+(noise(this.xoff)*10));
-    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.yoff)*-10), this.pos.y+(noise(this.yoff)*-10));
-    // line(this.pos.x, this.pos.y,this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15));
-    
-    // line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
 
+    // fill(this.col);
+    // rect(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20),sin(noise(this.xoff))*20,cos(noise(this.xoff))*20);
+    // fill(colorShift(random(col4),20))
+    // rect(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20),sin(noise(this.yoff))*20,cos(noise(this.yoff))*20);
+    // rect(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15),sin(noise(this.zoff))*20,cos(noise(this.zoff))*20);
+    // stroke(colorShift(random(col4),150));
+    // strokeWeight(noise(this.yoff)*10);
+    // point(this.pos.x, this.pos.y);
+    // strokeWeight(1+noise(this.xoff)*2);
       
-    line(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20), this.pposx.x, this.pposx.y);
+    // line(this.pos.x+(noise(this.xoff)*20), this.pos.y+(noise(this.xoff)*20), this.pposx.x, this.pposx.y);
     
-    line(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20), this.pposy.x, this.pposy.y);
+    // line(this.pos.x+(noise(this.yoff)*-20), this.pos.y+(noise(this.yoff)*-20), this.pposy.x, this.pposy.y);
     
-    line(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15), this.pposz.x, this.pposz.y);
+    // line(this.pos.x+(noise(this.zoff)*30-15), this.pos.y+(noise(this.zoff)*30-15), this.pposz.x, this.pposz.y);
+    
+    //plastic show
+    
+    push();
+    translate(this.pos.x, this.pos.y);
+    if(!move){
+      this.gradientPath = this.vel.copy();
+      this.gradientPath.setMag(this.sizeScalar-0.5);
+      this.colorLight = (color(218,219,213));
+    }else{
+      this.gradientPath = createVector(1,this.vel.y);
+      this.gradientPath.setMag(this.sizeScalar+0.5);
+      this.colorLight = this.moveCol;
+    }
+    
+    
+    var ellipseCenter = createVector(0,0);
+    if(!simulate){
+    for(i = 0; i<20; i+=2){
+      ellipseCenter.add(this.gradientPath);
+    // this.gradientPath.mult();
+
+    
+      
+      var g = lerpColor(color(104,105,106,120),this.colorLight,i*0.1);
+    
+      fill(g);
+    // ellipse(this.gradientPath*i*0.3,this.gradientPath*i*0.3,20-i,20-i);
+      ellipse(ellipseCenter.x,ellipseCenter.y,(21-i)*this.sizeScalar,(21-i)*this.sizeScalar);
+    }
+    }else{
+      // fill(color(76,102,39));
+      // ellipse(ellipseCenter.x,ellipseCenter.y,20*this.sizeScalar,20*this.sizeScalar);
+      // this.colorLight = colorShift(color(216,166,150),150,150);
+      fill(color(216,166,150));
+      ellipse(ellipseCenter.x,ellipseCenter.y,20*this.sizeScalar,20*this.sizeScalar);
+    //   for(i = 0; i<20; i+=2){
+    //   ellipseCenter.add(this.gradientPath);
+    //   var q = lerpColor(color(104,105,106,80),this.colorLight,i*0.1);
+    //   fill(q);
+    // // ellipse(this.gradientPath*i*0.3,this.gradientPath*i*0.3,20-i,20-i);
+    //   ellipse(ellipseCenter.x,ellipseCenter.y,(20-i)*this.sizeScalar,(20-i)*this.sizeScalar);
+    // }
+
+    }
+
+    
+    pop();
 
     this.updatePrev();
   }
@@ -117,16 +151,16 @@ function Particle(){
       this.updatePrev();
       
     }
-    if(this.pos.y>1600){
-      this.pos.y =800;
+    if(this.pos.y>windowHeight*2){
+      this.pos.y =windowHeight;
       this.updatePrev();
       
     }
-    if(this.pos.y<800){
-      this.pos.y =1600;
+    if(this.pos.y<windowHeight){
+      this.pos.y =windowHeight*2;
       this.updatePrev();
     }
-    if(this.pos.x>width*0.5-gridCenterXoff+10&&this.pos.x<width*0.5-gridCenterXoff+30&&this.pos.y>1200+20&&this.pos.y<1200+40){
+    if(this.pos.x>width*0.35+gridXOff-20&&this.pos.x<width*0.35+gridXOff+20&&this.pos.y>windowHeight*1.5&&this.pos.y<windowHeight*1.5+40){
       //x = 739, y = 1220
       // print("1");
       this.c ++;
@@ -158,12 +192,15 @@ function Particle(){
   // print(lands.length);
   // print(n);
   if(lands[n]){
-    if (this.pos.x > lands[n].x&&this.pos.y > lands[n].y||this.pos.y < 1800){
-        this.vel = createVector(0,10);
-        this.acc = createVector(0,10);
+    if (this.pos.x > lands[n].x&&this.pos.y > lands[n].y||this.pos.y < windowHeight*2.3){
+        // this.vel = createVector(0,10);
+        // this.acc = createVector(0,10);
+        this.alive = false;
     }else{
-      this.vel = createVector(0,0);
-      this.acc = createVector(random(-1,1),random(-1,1)+(mouseY-pmouseY)*5);
+      // if(frameRate%5===0){
+        // this.vel = createVector(random(-0.1,0.1),random(-0.1,0.1)+(mouseY-pmouseY));
+      // }
+      this.acc = createVector(random(-0.1,0.1),random(-0.1,0.1)+(mouseY-pmouseY));
     }
   }else{
     print("not valid");
@@ -171,30 +208,23 @@ function Particle(){
     // this.applyForce(createVector(1,0));
     
   }
-  this.setMove = function(){
-    this.pos.x = random(width);
-      this.pos.y = 1800+random(500);
+  this.setMove = function(x1,x2,y1,y2){
+    this.pos.x = random(x1,x2);
+      this.pos.y = random(y1,y2);//1800
       this.vel = createVector(0,0);
       this.acc = createVector(0,0);
       this.updatePrev();
   }
   
   this.moveEdges = function(){
-    // if(this.pos.x>width){
-    //     this.pos.x =0;
-    //     this.updatePrev();
-    //   }
-    //   if(this.pos.x<0){
-    //     this.pos.x =width;
-    //     this.updatePrev();
-    //   }
-      if(this.pos.y>2400){
-        this.pos.y =1600;
+
+      if(this.pos.y>windowHeight*3.5){
+        this.pos.y =windowHeight*2.3;
         this.updatePrev();
         
       }
-      if(this.pos.y<1600){
-        this.pos.y =2400;
+      if(this.pos.y<windowHeight*2.3){
+        this.pos.y =windowHeight*3.5;
         this.updatePrev();
       }
   }
