@@ -34,7 +34,7 @@ function preload() {
   img2 = loadImage('Images/2.png');
   img3 = loadImage('Images/3.png');
   img4 = loadImage('Images/4.png');
-  table = loadTable('tempGlobal.csv', 'csv', 'header');
+  table = loadTable('Data/tempGlobal.csv', 'csv', 'header');
 }
 
 function windowResized() {
