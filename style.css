@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800&family=Arya:wght@400;700&display=swap');
 body {
   padding: 0;
   margin: 0;
@@ -36,7 +36,7 @@ canvas {
 }
 
 html {
-  font-size: 10px;
+  font-size: 1vw;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -52,43 +52,55 @@ a {
   /*justify-content: center;*/
 }
 
-
 section {
-  height: 800px;
+  height: 45vw;
 }
 
 #part1 h1 {
   /*// p0.position(20,-65);*/
   /*position:fixed;*/
   color: #e6fc79;
-  font-size: 58pt;
-  margin:0 0 10px 0;
+  font-size: 5.4vw;
+  margin: 0 0 10px 0;
   /*font-size: 7rem;*/
   font-weight: 800;
   font-style: italic;
 }
+
+
 /*p1.position(20,80);*/
+
+
 /*  // p1.style('margin-right','60%');*/
+
+
 /*  // p1.style('margin-left','10px');*/
+
+
 /*  // p1.style('color','#e6fc79');*/
+
+
 /*  // p1.style('font-size','34pt');*/
+
+
 /*  // p1.style('font-weight','500');*/
+
+
 /*  // p1.style('font-family','Montserrat','sans-serif');*/
+
 #part1 p {
   /*position:fixed;*/
   /*float: left;*/
-  margin: 10px 15px;
-  width:20%;
+  margin: 0.5vw 1vw;
+  width: 20%;
   overflow: auto;
   height: 600px;
   color: #e6fc79;
-  font-size: 18pt;
+  font-size: 1.65vw;
   font-weight: 500;
 }
 
-
-
-#part1 .textbox{
+#part1 .textbox {
   max-width: 1200px;
   /*color: #fff;*/
   /*margin: -50px 15px;*/
@@ -96,82 +108,72 @@ section {
   justify-content: flex-start;
 }
 
-.textbox::after{
-  content:"";
+.textbox::after {
+  content: "";
   position: absolute;
-  left:0;
-  top:100px;
-  height:68%;
-  width:20%;
-  background-color:black;
+  left: 0;
+  top: 100px;
+  height: 33vw;
+  width: 20%;
+  background-color: black;
   opacity: 0.3;
   z-index: -1;
 }
 
-#part2{
+#part2 {
   height: 800px;
+  font-family: "Arya", sans-serif;
 }
 
 #part2 h1 {
   /*// p0.position(20,-65);*/
   /*position:fixed;*/
-  color: #b3a18e;
-  font-size: 48pt;
-  margin:0;
+  color: #dadbd5;
+  font-size: 6vw;
+  margin: 1vw 0 0 0;
   /*font-size: 7rem;*/
   font-weight: 800;
   font-style: italic;
   text-align: center;
 }
 
-/*#part2 h1::after{*/
-/*  content:"";*/
-/*  position: absolute;*/
-  /*float: right;*/
-/*  left:0;*/
-/*  top:800px;*/
-/*  height:10%;*/
-/*  width:100%;*/
-/*  background-color:black;*/
-/*  opacity: 0.3;*/
-/*  z-index: -1;*/
-/*}*/
-
 #part2 p {
   /*position:fixed;*/
   float: right;
   overflow: auto;
-  margin: 10 15px;
-  width:23%;
-  height:650px;
-  color: #b3a18e;
-  font-size: 12pt;
+  margin: 0;
+  width: 23%;
+  height: 650px;
+  color: #dadbd5;
+  /*color: #b3a18e;*/
+  font-size: 1.5vw;
   font-weight: 500;
+  line-height: 100%;
 }
 
-#part2 .cta{
-  color: #b3a18e;
-  border: 2px solid #b3a18e;
+#part2 .cta {
+  color: #dadbd5;
+  border: 0.2vw solid #dadbd5;
 }
 
-.cta{
+.cta {
   display: inline-block;
-  padding: 10px 30px;
-  
+  padding: 0.8vw 1vw 1vw 1.5vw;
   background-color: transparent;
-  
-  font-size: 3rem;
+  font-size: 2.2vw;
   text-transform: uppercase;
-  letter-spacing: .1rem;
-  margin-top: 30px;
+  letter-spacing: 0.4vw;
+  margin-top: 1vw;
   transition: .3s ease background-color;
   transition-property: background-color color;
 }
 
-.cta:hover{
+.cta:hover {
   color: black;
   background-color: white;
 }
+
+
 /*#part3 */
 
 #part3 p {
@@ -181,32 +183,28 @@ section {
   color: #999999;
   font-size: 12pt;
   font-weight: 500;
-  
-  
 }
 
-#part3 .topdiv{
-  height:400px;
-  margin: 0 auto;
+#part3 .topdiv {
+  height: 400px;
+  margin: 5% auto 0 auto;
   width: 50%;
 }
 
-#part3 .bottomdiv{
+#part3 .bottomdiv {
   /*height:150px;*/
   /*min-height:200px;*/
-
   width: 50%;
   margin: auto;
   margin-top: 400px;
   padding: 20px 0 40px 0;
-  
   /*display: table-cell;*/
   /*vertical-align: bottom;*/
 }
 
-#part3 .cta{
-  color: #999999;
-  border: 2px solid #999999;
+#part3 .cta {
+  color: #ffffff;
+  border: 2px solid #ffffff;
 }
 
 #move {
@@ -214,11 +212,14 @@ section {
   margin-top: 200px;
 }
 
-#bot{
-  margin: 0px;
+#bot {
+  margin:0;
   background: #333333;
 }
 
-#end{
+#end {
+  margin:0;
+  display:flex;
+  /*position:absolute;*/
   color: #999999;
 }
