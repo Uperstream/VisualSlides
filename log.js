@@ -33,7 +33,6 @@ function preload() {
   img = loadImage('Images/1.png');
   img2 = loadImage('Images/2.png');
   img3 = loadImage('Images/3.png');
-  img4 = loadImage('Images/4.png');
   table = loadTable('Data/tempGlobal.csv', 'csv', 'header');
 }
 
